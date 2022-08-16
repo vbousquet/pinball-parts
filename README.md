@@ -40,7 +40,7 @@ To ease the process a little Blender add-on is provided that adds a button to th
 
 # License
 
-This library is licensed under the LGPL-3 (see license file) except the 'Thin Film Interaction' Nodegroup which is licensed CC BY-NC-SA 4.0.
+This library is licensed under the GPL-3 (see license file) except the 'Thin Film Interaction' Nodegroup which is licensed CC BY-NC-SA 4.0.
 
 
 # Credits
@@ -53,6 +53,7 @@ This library was built thanks to the contributions of many authors, namely:
 - Bord: lane guides, spot lights
 - BorgDog: faceted posts, 'Tent' lane guides, and flat head screw
 - Sixtoe: covered switch and lock base flasher
-- Tomate: ramp start
+- Tomate: ramp starts
+- Freezy: 2.5" flipper bat
 - Niwak: overall library, bulbs, flipper bats, reworked lots of parts,...
 
