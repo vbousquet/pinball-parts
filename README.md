@@ -50,7 +50,7 @@ To ease the process a little Blender add-on is provided that adds a button to th
 
 # License
 
-This library is licensed under the GPL-3 (see license file) except the 'Thin Film Interaction' Nodegroup which is licensed CC BY-NC-SA 4.0.
+This library is licensed under the CC BY-SA (see license file) except the 'Thin Film Interaction' Nodegroup which is licensed CC BY-NC-SA 4.0.
 
 
 # Credits
