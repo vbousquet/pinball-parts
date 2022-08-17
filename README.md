@@ -30,7 +30,11 @@ All files are 'unpacked' blender files, with there textures stored in a children
 
 ![Flipper bats](Flipper/Flipper%20Bats.webp)
 
+![Lane Guides](Lane%20Guides/Guides.webp)
+
 ![Bulbs](Bulbs/Bulbs.webp)
+
+![Inserts](Inserts/Inserts.webp)
 
 
 # Helper add-on
@@ -47,13 +51,14 @@ This library is licensed under the GPL-3 (see license file) except the 'Thin Fil
 
 This library was built thanks to the contributions of many authors, namely:
 - [Visual Pinball X](https://github.com/vpinball/vpinball): parts from the default table (posts, bats,...)
-- [Pinball Maker](https://pinballmakers.com/wiki/index.php?title=Files_Section): inserts, bumpers base models
+- [Pinball Maker](https://pinballmakers.com/wiki/index.php?title=Files_Section): inserts, bumpers, lane guides,...
 - [Pruster & JettG_G](https://blenderartists.org/t/gpu-compatible-thin-film-interference-v2-1-glass-within-glass-absorption/699459): NodeGroup for thin film interference for metal, plastic and glass (the nodegroup is licensed CC BY-NC-SA, its resulting render are not licensed)
 - Flupper: Williams 3" flipper bat, clear bumper cap
 - Bord: lane guides, spot lights
 - BorgDog: faceted posts, 'Tent' lane guides, and flat head screw
 - Sixtoe: covered switch and lock base flasher
 - Tomate: ramp starts
-- Freezy: 2.5" flipper bat
+- Freezy: 2.5" flipper bat, Williams lane guide
+- Eskar: Williams lane guide
 - Niwak: overall library, bulbs, flipper bats, reworked lots of parts,...
 
