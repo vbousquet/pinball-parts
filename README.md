@@ -32,7 +32,13 @@ All files are 'unpacked' blender files, with there textures stored in a children
 
 ![Lane Guides](Lane%20Guides/Guides.webp)
 
+![Bumpers](Bumpers/Bumpers.webp)
+
+![Switches](Switches/Switches.webp)
+
 ![Bulbs](Bulbs/Bulbs.webp)
+
+![Flashers](Bulbs/Flashers.webp)
 
 ![Inserts](Inserts/Inserts.webp)
 
@@ -58,7 +64,7 @@ This library was built thanks to the contributions of many authors, namely:
 - BorgDog: faceted posts, 'Tent' lane guides, and flat head screw
 - Sixtoe: covered switch and lock base flasher
 - Tomate: ramp starts
-- Freezy: 2.5" flipper bat, Williams lane guide
+- Freezy: 2.5" flipper bat, Williams lane guide, slingshot leaf switch
 - Eskar: Williams lane guide
 - Niwak: overall library, bulbs, flipper bats, reworked lots of parts,...
 
