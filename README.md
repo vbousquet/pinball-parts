@@ -63,7 +63,7 @@ This library was built thanks to the contributions of many authors, namely:
 - Bord: lane guides, spot lights
 - BorgDog: faceted posts, 'Tent' lane guides, and flat head screw
 - Sixtoe: covered switch and lock base flasher
-- Tomate: ramp starts
+- Tomate: ramp starts, flippers for Bally 80 and Data East
 - Freezy: 2.5" flipper bat, Williams lane guide, slingshot leaf switch
 - Eskar: Williams lane guide
 - Niwak: overall library, bulbs, flipper bats, reworked lots of parts,...
