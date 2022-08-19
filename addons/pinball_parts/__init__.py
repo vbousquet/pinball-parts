@@ -26,11 +26,61 @@ bl_info = {
 
 # During development, to reload: bpy.ops.script.reload()
 
+
 import bpy
+import bmesh
 import math
 import mathutils
 import os
+import string
+import unicodedata
+from bpy.props import (StringProperty)
 from bpy.types import (Operator)
+
+
+def clean_filename(filename):
+    whitelist = "-_.() %s%s" % (string.ascii_letters, string.digits)
+    
+    # keep only valid ascii chars
+    cleaned_filename = unicodedata.normalize('NFKD', filename).encode('ASCII', 'ignore').decode()
+    
+    # keep only whitelisted chars
+    cleaned_filename = ''.join(c for c in cleaned_filename if c in whitelist)
+    char_limit = 255
+    if len(cleaned_filename)>char_limit:
+        print("Warning, filename truncated because it was over {}. Filenames may no longer be unique".format(char_limit))
+    return cleaned_filename[:char_limit]    
+
+
+class PCP_OT_set_quality_tag(Operator):
+    bl_idname = "pcp.set_quality_tag"
+    bl_label = "Quality"
+    bl_description = "Set quality tag"
+    bl_options = {"REGISTER", "UNDO"}
+    tag_name: bpy.props.StringProperty()
+    
+    @classmethod
+    def poll(cls, context):
+        return True
+
+    def execute(self, context):
+        current_library_name = context.area.spaces.active.params.asset_library_ref
+        if current_library_name != "LOCAL":  # NOT Current file
+            library_path = Path(context.preferences.filepaths.asset_libraries.get(current_library_name).path)
+
+        for asset_file in context.selected_asset_files:
+            if current_library_name == "LOCAL":
+                print(f"{asset_file.local_id.name} is selected in the asset browser. (Local File)")
+                obj = asset_file.local_id
+                # if 'QS' in [tag.name for tag in obj.asset_data.tags]:
+                    # obj.asset_data.tags.remove('QS')
+                obj.asset_data.tags.new(tag_name)
+            else:
+                asset_fullpath = library_path / asset_file.relative_path
+                print(f"{asset_fullpath} is selected in the asset browser.")
+                print(f"It is located in a user library named '{current_library_name}'")
+
+        return {"FINISHED"}
 
 
 class PCP_OT_render_thumbnail(Operator):
@@ -39,9 +89,9 @@ class PCP_OT_render_thumbnail(Operator):
     bl_description = "Render a thumbnail for the selected asset"
     bl_options = {"REGISTER", "UNDO"}
     
-    @classmethod
-    def poll(cls, context):
-        return next((o for o in bpy.context.selected_objects if o.asset_data is not None), None) is not None
+    # @classmethod
+    # def poll(cls, context):
+        # return next((o for o in bpy.context.selected_objects if o.asset_data is not None), None) is not None
 
     def fit_camera(self, camera_object, camera_inclination, obj):
         #if obj.type != 'MESH':
@@ -80,7 +130,21 @@ class PCP_OT_render_thumbnail(Operator):
         camera_object.data.shift_y = 0.25 * (max_y + min_y)
 
     def execute(self, context):
-        objects = [o for o in bpy.context.selected_objects if o.asset_data is not None]
+        current_library_name = context.area.spaces.active.params.asset_library_ref
+        if current_library_name != "LOCAL":  # NOT Current file
+            library_path = Path(context.preferences.filepaths.asset_libraries.get(current_library_name).path)
+
+        objects = []
+        for asset_file in context.selected_asset_files:
+            if current_library_name == "LOCAL":
+                print(f"{asset_file.local_id.name} is selected in the asset browser. (Local File)")
+                objects.append(asset_file.local_id)
+            else:
+                asset_fullpath = library_path / asset_file.relative_path
+                print(f"{asset_fullpath} is selected in the asset browser.")
+                print(f"It is located in a user library named '{current_library_name}'")
+        
+        #objects = [o for o in bpy.context.selected_objects if o.asset_data is not None]
         print(f'Updating asset thumbnails for {len(objects)} assets')
 
         # Setup basic scene for thumbnail rendering
@@ -101,17 +165,33 @@ class PCP_OT_render_thumbnail(Operator):
 
         for i, obj in enumerate(objects):
             print(f'{i+1}/{len(objects)}: Updating thumbnail for {obj.name}')
-            tmp_file = bpy.path.abspath(f'//tmp thumbnail {i+1:3}.png')
+            tmp_file = bpy.path.abspath(f'//thumb - {clean_filename(obj.name)}.png')
             tmp_files.append(tmp_file)
             scene.render.filepath = tmp_file
-            scene.collection.objects.link(obj)
-            old_pos = obj.matrix_world.copy()
-            obj.matrix_world = ((1.0, 0.0, 0.0, 0.0), (0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 1.0, 0.0), (0.0, 0.0, 0.0, 1.0))
-            self.fit_camera(camera_object, 37.5, obj)
+            if isinstance(obj, bpy.types.Material):
+                mesh = bpy.data.meshes.new('Basic_Sphere')
+                preview_obj = bpy.data.objects.new("Basic_Sphere", mesh)
+                bm = bmesh.new()
+                bmesh.ops.create_uvsphere(bm, u_segments=32, v_segments=16, radius=1)
+                for f in bm.faces: f.smooth = True
+                bm.to_mesh(mesh)
+                bm.free()
+                preview_obj.data.materials.append(obj)
+            elif isinstance(obj, bpy.types.Object):
+                preview_obj = obj
+            else:
+                print(f'Skipping {obj.name} (unsupported type)')
+                continue
+            scene.collection.objects.link(preview_obj)
+            old_pos = preview_obj.matrix_world.copy()
+            preview_obj.matrix_world = ((1.0, 0.0, 0.0, 0.0), (0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 1.0, 0.0), (0.0, 0.0, 0.0, 1.0))
+            self.fit_camera(camera_object, 37.5, preview_obj)
             bpy.ops.render.render(write_still = True, scene=scene.name)
             bpy.ops.ed.lib_id_load_custom_preview({"id": obj}, filepath=tmp_file)
-            obj.matrix_world = old_pos
-            scene.collection.objects.unlink(obj)
+            preview_obj.matrix_world = old_pos
+            scene.collection.objects.unlink(preview_obj)
+            if preview_obj != obj:
+                bpy.data.meshes.remove(preview_obj.data)
             
         bpy.data.scenes.remove(scene)
         bpy.data.objects.remove(camera_object)
@@ -125,7 +205,7 @@ class PCP_OT_render_thumbnail(Operator):
 class PCP_PT_3D(bpy.types.Panel):
     bl_label = "Pinball Core Parts"
     bl_category = "PCP"
-    bl_space_type = "VIEW_3D"
+    bl_space_type = "FILE_BROWSER"
     bl_region_type = "UI"
     def draw(self, context):
         layout = self.layout
@@ -140,16 +220,26 @@ classes = (
 registered_classes = []
 
 
+def draw_thumb_menu(self, context):
+    layout = self.layout
+    layout.separator()
+    layout.operator(PCP_OT_render_thumbnail.bl_idname)
+
+
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
         registered_classes.append(cls)
+    bpy.types.ASSETBROWSER_MT_editor_menus.append(draw_thumb_menu)
+    #bpy.types.ASSETBROWSER_MT_context_menu.append(draw_thumb_menu)
 
 
 def unregister():
     for cls in registered_classes:
         bpy.utils.unregister_class(cls)
     registered_classes.clear()
+    bpy.types.ASSETBROWSER_MT_editor_menus.remove(draw_thumb_menu)
+    #bpy.types.ASSETBROWSER_MT_context_menu.remove(draw_thumb_menu)
 
 
 if __name__ == "__main__":
