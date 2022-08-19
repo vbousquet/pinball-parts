@@ -1,14 +1,15 @@
-name: CI
+name: Release
 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  #push:
-  #  branches: [ master ]
-  #pull_request:
-  #  branches: [ master ]
-
-  # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      sha:
+        description: "SHA (leave blank for HEAD)"
+        required: false
+
+env:
+  ACTIONS_API_URL: https://api.github.com/repos/${GITHUB_REPOSITORY}/actions
+  VERSION_START_SHA: b215f9452b622c4465871a1a3a69579a6ba2ccc0
 
 jobs:
   version:
@@ -45,22 +46,10 @@ jobs:
         type: 'zip'
         filename: 'pinball-core-part-lib.zip'
         exclusions: '*.git* /*References/*'
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: ncipollo/release-action@v1
       with:
-        tag_name: "v${{ needs.version.outputs.tag }}" 
-        release_name: "v${{ needs.version.outputs.tag }}"
-        commitish: ${{ needs.version.outputs.sha }}
-        prerelease: false
-        draft: false
-    - name: Upload Release
-      id: upload_release
-      uses: dwenegar/upload-release-assets@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        release_id: ${{ steps.create_release.outputs.id }}
-        assets_path: pinball-core-part-lib.zip
+        artifacts: 'pinball-core-part-lib.zip'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit: ${{ needs.version.outputs.sha }}
+        tag: "v${{ needs.version.outputs.tag }}"
+        name: "Pinball Core Parts v${{ needs.version.outputs.tag }}"
