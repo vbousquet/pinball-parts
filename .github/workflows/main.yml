@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  #push:
+  #  branches: [ master ]
+  #pull_request:
+  #  branches: [ master ]
+
+  # Allows to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.sha.outputs.sha }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - id: sha
+        run: |
+           SHA=$(if [[ "${{ github.event.inputs.sha }}" ]]; then echo "${{ github.event.inputs.sha }}"; else echo "${GITHUB_SHA}"; fi)
+           SHA7="${SHA::7}"
+           echo "::set-output name=sha::${SHA}"
+           echo "::set-output name=sha7::${SHA7}"
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.sha.outputs.sha }}
+          fetch-depth: 0
+      - id: version
+        run: |
+          REVISION=$(git rev-list ${{ env.VERSION_START_SHA }}..${{ steps.sha.outputs.sha }} --count)
+          TAG="${REVISION}-${{ steps.sha.outputs.sha7 }}"
+          echo "::set-output name=tag::${TAG}"
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [ version ]
+    steps:
+    - uses: actions/checkout@master
+    - name: Prepare Release Package
+      id: prepare_release
+      uses: thedoctor0/zip-release@main
+      with:
+        type: 'zip'
+        filename: 'pinball-core-part-lib.zip'
+        exclusions: '*.git* /*References/*'
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: "v${{ needs.version.outputs.tag }}" 
+        release_name: "v${{ needs.version.outputs.tag }}"
+        commitish: ${{ needs.version.outputs.sha }}
+        prerelease: false
+        draft: false
+    - name: Upload Release
+      id: upload_release
+      uses: dwenegar/upload-release-assets@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}
+        assets_path: pinball-core-part-lib.zip
