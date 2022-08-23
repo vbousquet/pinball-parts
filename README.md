@@ -63,9 +63,9 @@ This library was built thanks to the contributions of many authors, namely:
 - [Pruster & JettG_G](https://blenderartists.org/t/gpu-compatible-thin-film-interference-v2-1-glass-within-glass-absorption/699459): NodeGroup for thin film interference for metal, plastic and glass (the nodegroup is licensed CC BY-NC-SA, its resulting render are not licensed)
 - Flupper: Williams 3" flipper bat, clear bumper cap
 - Bord: lane guides, spot lights
-- BorgDog: faceted posts, 'Tent' lane guides, flat head screw, flipper bats
+- BorgDog: faceted posts, 'Tent' lane guides, flat head screw, flipper bats, Gottlieb bumpers, aprons, posts,...
 - Sixtoe: covered switch and lock base flasher
-- Tomate: ramp starts, flippers for Bally 80 and Data East
+- Tomate: ramp starts, flippers for Bally 80 and Data East, Data East stippled bumper cap, rivet
 - Freezy: 2.5" flipper bat, Williams lane guide, slingshot leaf switch
 - Eskar: Williams lane guide
 - Niwak: overall library, bulbs, flipper bats, reworked lots of parts,...
