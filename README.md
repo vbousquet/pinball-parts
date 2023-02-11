@@ -3,6 +3,14 @@
 This projects aims at collecting and sharing assessed blender models of common pinball parts (bats, posts, screws,...) in order to ease the process of recreating these pinball tables in 3D to ultimately recreate them in a virtual simulator like [Visual Pinball X](https://github.com/vpinball/vpinball) or [Visual Pinball Engine](https://github.com/freezy/VisualPinball.Engine).
 
 
+# How to use
+
+1. Download this repository as a zip
+2. Create a folder somewhere on your hard drive and unpack the downloaded zip in it
+3. Add this folder to your Blender asset libraries
+4. Visit periodically this page and update by downloading over your previous install
+
+
 # Guidelines
 
 Assets are splitted in category folders. When an asset (material, texture, node group,...) is used by multiple other assets, it must be placed in the 'Shared' folder.
@@ -17,7 +25,7 @@ Each asset should be marked with the following tags:
 
 When valuable references are availables, they are stored along the modeled part (reference picture, datasheet, measures,...).
 
-All files are 'unpacked' blender files, with there textures stored in a children 'Textures' folder.
+All files are 'unpacked' blender files, with their textures stored in a children 'Textures' folder.
 
 
 # Content
