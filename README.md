@@ -76,5 +76,6 @@ This library was built thanks to the contributions of many authors, namely:
 - Tomate: ramp starts, flippers for Bally 80 and Data East, Data East stippled bumper cap, rivet
 - Freezy: 2.5" flipper bat, Williams lane guide, slingshot leaf switch
 - Eskar: Williams lane guide
-- Niwak: overall library, bulbs, flipper bats, reworked lots of parts,...
+- ClakKent: Capcom spinner
+- Niwak: overall library, bulbs, flipper bats, reworked lots of parts, materials,...
 
