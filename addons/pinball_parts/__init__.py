@@ -130,17 +130,17 @@ class PCP_OT_render_thumbnail(Operator):
         camera_object.data.shift_y = 0.25 * (max_y + min_y)
 
     def execute(self, context):
-        current_library_name = context.area.spaces.active.params.asset_library_ref
+        current_library_name = context.area.spaces.active.params.asset_library_reference
         if current_library_name != "LOCAL":  # NOT Current file
             library_path = Path(context.preferences.filepaths.asset_libraries.get(current_library_name).path)
 
         objects = []
-        for asset_file in context.selected_asset_files:
+        for asset in context.selected_assets:
             if current_library_name == "LOCAL":
-                print(f"{asset_file.local_id.name} is selected in the asset browser. (Local File)")
-                objects.append(asset_file.local_id)
+                print(f"{asset.name} is selected in the asset browser. (Local File)")
+                objects.append(asset.local_id)
             else:
-                asset_fullpath = library_path / asset_file.relative_path
+                asset_fullpath = library_path / asset. full_library_path
                 print(f"{asset_fullpath} is selected in the asset browser.")
                 print(f"It is located in a user library named '{current_library_name}'")
         
@@ -187,7 +187,8 @@ class PCP_OT_render_thumbnail(Operator):
             preview_obj.matrix_world = ((1.0, 0.0, 0.0, 0.0), (0.0, 1.0, 0.0, 0.0), (0.0, 0.0, 1.0, 0.0), (0.0, 0.0, 0.0, 1.0))
             self.fit_camera(camera_object, 37.5, preview_obj)
             bpy.ops.render.render(write_still = True, scene=scene.name)
-            bpy.ops.ed.lib_id_load_custom_preview({"id": obj}, filepath=tmp_file)
+            with bpy.context.temp_override(id=obj):
+                bpy.ops.ed.lib_id_load_custom_preview(filepath=tmp_file)
             preview_obj.matrix_world = old_pos
             scene.collection.objects.unlink(preview_obj)
             if preview_obj != obj:
