@@ -50,6 +50,8 @@ All files are 'unpacked' blender files, with their textures stored in a children
 
 ![Inserts](Inserts/Inserts.webp)
 
+![Kickers](Kickers/Kickers.webp)
+
 ![Miscellaneous](Miscellaneous/Miscellaneous.webp)
 
 
@@ -69,13 +71,13 @@ This library was built thanks to the contributions of many authors, namely:
 - [Visual Pinball X](https://github.com/vpinball/vpinball): parts from the default table (posts, bats,...)
 - [Pinball Maker](https://pinballmakers.com/wiki/index.php?title=Files_Section): inserts, bumpers, lane guides,...
 - [Pruster & JettG_G](https://blenderartists.org/t/gpu-compatible-thin-film-interference-v2-1-glass-within-glass-absorption/699459): NodeGroup for thin film interference for metal, plastic and glass (the nodegroup is licensed CC BY-NC-SA, its resulting render are not licensed)
-- Flupper: Williams 3" flipper bat, clear bumper cap, refractive materials
+- Flupper: Williams 3" flipper bat, clear bumper cap, refractive materials, kickers, inserts
 - Bord: lane guides, spot lights, 80's targets, bally flippers
 - BorgDog: faceted posts, 'Tent' lane guides, flat head screw, flipper bats, Gottlieb bumpers, aprons, posts,...
-- Sixtoe: covered switch and lock base flasher
-- Tomate: ramp starts, flippers for Bally 80 and Data East, Data East stippled bumper cap, rivet
+- Sixtoe: covered switch and lock base flasher, bell posts
+- Tomate: ramp starts, flippers for Bally 80 and Data East, Data East stippled bumper cap, rivet, kickers, Williams lightning bats
 - Freezy: 2.5" flipper bat, Williams lane guide, slingshot leaf switch
 - Eskar: Williams lane guide
 - ClakKent: Capcom spinner
-- Niwak: overall library, bulbs, flipper bats, reworked lots of parts, materials,...
+- Niwak: overall library, bulbs, flipper bats, kickers, reworked lots of parts, materials,...
 
