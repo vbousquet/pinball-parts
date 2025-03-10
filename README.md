@@ -68,6 +68,7 @@ This library is licensed under the CC BY-SA (see license file) except the 'Thin 
 # Credits
 
 This library was built thanks to the contributions of many authors, namely:
+- Niwak: overall library, bulbs, flipper bats, kickers, reworked lots of parts, materials,...
 - [Visual Pinball X](https://github.com/vpinball/vpinball): parts from the default table (posts, bats,...)
 - [Pinball Maker](https://pinballmakers.com/wiki/index.php?title=Files_Section): inserts, bumpers, lane guides,...
 - [Pruster & JettG_G](https://blenderartists.org/t/gpu-compatible-thin-film-interference-v2-1-glass-within-glass-absorption/699459): NodeGroup for thin film interference for metal, plastic and glass (the nodegroup is licensed CC BY-NC-SA, its resulting render are not licensed)
@@ -79,5 +80,4 @@ This library was built thanks to the contributions of many authors, namely:
 - Freezy: 2.5" flipper bat, Williams lane guide, slingshot leaf switch
 - Eskar: Williams lane guide
 - ClakKent: Capcom spinner
-- Niwak: overall library, bulbs, flipper bats, kickers, reworked lots of parts, materials,...
-
+- Gedankekojote97: Sys7 kicker, retaining ring, Stern Apron, LED bulb, ...
